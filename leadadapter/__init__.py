@@ -1,5 +1,6 @@
 """Stdlib LeadAdapter client. Generated request metadata; no automatic action retries."""
 import json
+import hashlib
 import math
 import time
 from pathlib import Path
@@ -58,11 +59,17 @@ class LeadAdapterClient:
         if not allow_custom_origin and (url.scheme!='https' or url.hostname!='leadadapter.com' or port not in (None,443)): raise ValueError('Custom origin requires allow_custom_origin=True')
         if not isinstance(timeout,(int,float)) or not math.isfinite(timeout) or timeout<=0: raise ValueError('timeout must be positive and finite')
         self.__key=api_key
+        self.__account_fingerprint=hashlib.sha256(api_key.encode()).hexdigest()
         self.__base=urlunsplit((url.scheme,url.netloc,url.path.rstrip('/'),'',''))
         self.__timeout=timeout
         self.__transport=transport or _transport
         from .resources import attach
         attach(self)
+
+    @property
+    def account_fingerprint(self):
+        """Nonsecret credential-context digest for binding private workflow checkpoints."""
+        return self.__account_fingerprint
 
     def request(self, operation_id, *, path=None, query=None, body=None, idempotency_key=None, timeout=None):
         if operation_id not in operations: raise ValueError('Unknown LeadAdapter operation')

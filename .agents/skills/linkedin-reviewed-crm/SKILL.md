@@ -9,7 +9,7 @@ Use the installed LeadAdapter SDK or remote MCP with the user's existing `LEADAD
 
 1. Read [the workflow contract](references/workflow.md) and the installed SDK's capability manifest before selecting operations.
 2. Clarify the actual research criteria and connected profile only when missing. Prefer an offline plan or synthetic fixture for setup verification.
-3. Execute this chain: **prospects.get → prospects.promote → crm.syncLead**. Inspect real receipts; handle unavailable capabilities, queued jobs and approvals explicitly.
+3. Execute this chain: **prospects.get → prospects.promote → crm.syncLead (Node) / crm.sync_lead (Python)**. Inspect real receipts; handle unavailable capabilities, queued jobs and approvals explicitly.
 4. Require explicit approval of exact prospect IDs for promotion. Default to native LeadAdapter CRM. External sync needs a named existing provider and separate approval. Never replay uncertain writes.
 5. Save private JSON/CSV outputs and a review report outside version control. Report what completed and what remains pending.
 

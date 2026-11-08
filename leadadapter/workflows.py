@@ -2,6 +2,7 @@
 import copy
 import json
 import os
+import re
 import tempfile
 import uuid
 from contextlib import contextmanager
@@ -80,19 +81,22 @@ def run_research_to_crm(client, *, keywords=None, profile_id=None, prospect_ids=
     """
     if mode not in ('live','fixture'):raise ValueError('mode must be live or fixture')
     if mode=='live' and not checkpoint:raise ValueError('Live workflows require a durable checkpoint')
+    fingerprint=getattr(client,'account_fingerprint',None)
+    if not isinstance(fingerprint,str) or not re.fullmatch(r'[a-f0-9]{64}',fingerprint):raise ValueError('Workflow requires an SDK client with a credential-context fingerprint')
     if not isinstance(max_pages,int) or max_pages<1 or max_pages>100:raise ValueError('max_pages must be1-100')
     with _lock(checkpoint):
         if checkpoint and Path(checkpoint).exists():
             if Path(checkpoint).is_symlink():raise ValueError('Checkpoint symlinks are refused')
             state=json.loads(Path(checkpoint).read_text())
             if state.get('version')!=1 or state.get('workflow')!='research-to-crm':raise ValueError('Unsupported checkpoint')
+            if state.get('account_fingerprint')!=fingerprint:raise ValueError('Checkpoint account/key fingerprint differs or is missing; use the original credential context or a new checkpoint')
             for key,value in [('keywords',keywords),('profile_id',profile_id),('provider',provider)]:
                 if value is not None and value!=state.get(key):raise ValueError('Resume parameters differ from checkpoint: '+key)
             if state.get('mode')!=mode:raise ValueError('Cannot resume a checkpoint in a different execution mode')
             provider=state.get('provider');profile_id=state.get('profile_id');keywords=state['keywords']
         else:
             if not isinstance(keywords,list) or not keywords or any(not isinstance(k,str) or not k.strip() for k in keywords):raise ValueError('At least one explicit keyword is required')
-            state={'version':1,'workflow':'research-to-crm','mode':mode,'run_id':str(uuid.uuid4()),'keywords':keywords,'profile_id':profile_id,'provider':provider,'research_key':str(uuid.uuid4()),'stage':'research_pending','records':[],'selected_ids':[],'selected_urns':[]}
+            state={'version':1,'workflow':'research-to-crm','mode':mode,'run_id':str(uuid.uuid4()),'keywords':keywords,'profile_id':profile_id,'provider':provider,'research_key':str(uuid.uuid4()),'account_fingerprint':fingerprint,'stage':'research_pending','records':[],'selected_ids':[],'selected_urns':[]}
         if approve_crm and not provider:raise ValueError('An explicit provider is required for external CRM approval')
         for key,value in [('selected_ids',prospect_ids),('selected_urns',prospect_urns)]:
             if value:
@@ -113,7 +117,9 @@ def run_research_to_crm(client, *, keywords=None, profile_id=None, prospect_ids=
                 identifier=job_id(receipt)
                 inline=_data(receipt)
                 if identifier:state['job_id']=identifier;save('research_queued')
-                elif inline.get('job_status')=='done':state['research_identities']=[list(x) for r in _rows(inline.get('result')) for x in sorted(_identities(r))];save('research_completed')
+                elif inline.get('job_status')=='done':
+                    if inline.get('error') is not None:save('research_failed','Research returned an error with its terminal receipt; no promotion was attempted.');return _public(state)
+                    state['research_identities']=[list(x) for r in _rows(inline.get('result')) for x in sorted(_identities(r))];save('research_completed')
                 else:raise LeadAdapterError('missing_job_receipt')
             if 'research_identities' not in state:
                 try:receipt=client.jobs.wait(state['job_id'],timeout=poll_timeout,interval=poll_interval)
@@ -122,7 +128,7 @@ def run_research_to_crm(client, *, keywords=None, profile_id=None, prospect_ids=
                     raise
                 data=_data(receipt)
                 if data.get('job_id')!=state['job_id']:raise LeadAdapterError('job_identity_mismatch')
-                if data.get('status')!='done':save('research_failed','Research ended without completed results: '+str(data.get('status')));return _public(state)
+                if data.get('status')!='done' or data.get('error') is not None:save('research_failed','Research ended without completed results: '+str(data.get('status')));return _public(state)
                 state['research_identities']=[list(x) for r in _rows(data.get('result')) for x in sorted(_identities(r))];save('research_completed')
         observed={tuple(x) for x in state['research_identities']}
         if not observed:save('awaiting_identity','Completed result has no supported exact identity; no name matching or promotion was attempted.');return _public(state)
@@ -179,7 +185,7 @@ def run_research_to_crm(client, *, keywords=None, profile_id=None, prospect_ids=
                 item['sync_state']='pending';save('syncing')
                 try:
                     synced=_data(client.crm.sync_lead(item['lead_id'],provider=provider,idempotency_key=item['sync_key'],approved=True,profile_id=profile_id))
-                    if synced.get('lead_id')!=item['lead_id'] or synced.get('provider')!=provider or not isinstance(synced.get('outcome'),str):raise LeadAdapterError('invalid_sync_receipt')
+                    if synced.get('lead_id')!=item['lead_id'] or synced.get('provider')!=provider or synced.get('outcome') not in ('created','updated','already_exists','skipped'):raise LeadAdapterError('invalid_sync_receipt')
                     item.update(sync_state='done',external_id=synced.get('external_id'));save('external_crm')
                 except Exception:
                     item['sync_state']='uncertain';save('reconciliation_required','External CRM outcome requires reconciliation; this workflow will not repeat the write.');raise
