@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "sourceRevision": "ea33908e4d5e10508739f28e11abf708e11f3117f1108b904229eeeb00079e55",
+  "evidence": [
+    "Pinned public OpenAPI contract",
+    "tests/leadadapter.test.mjs"
+  ],
+  "provenance": [
+    "https://leadadapter.com/api/v1/openapi.json"
+  ],
+  "id": "linkedin-python-sdk",
+  "kind": "sdk-python",
+  "product": "leadadapter",
+  "title": "LeadAdapter Python API client",
+  "description": "Standard-library Python client for the LeadAdapter REST API.",
+  "operationIds": [
+    "list_leads_get"
+  ],
+  "attributionSlug": "github-linkedin-python-sdk"
+}

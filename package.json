@@ -1,0 +1,15 @@
+{
+  "name": "linkedin-python-sdk",
+  "version": "0.1.0",
+  "description": "Standard-library Python client for the LeadAdapter REST API.",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "start": "node example.mjs"
+  }
+}
