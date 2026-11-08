@@ -21,5 +21,36 @@
   "operationIds": [
     "list_leads_get"
   ],
-  "attributionSlug": "github-linkedin-python-sdk"
+  "attributionSlug": "github-linkedin-python-sdk",
+  "qualityVersion": 2,
+  "artifactType": "sdk",
+  "utility": {
+    "problem": "Standard-library Python client for the LeadAdapter REST API.",
+    "output": "Documented LeadAdapter API results"
+  },
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "linkedin-python-sdk",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Standalone functional API/compiler contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Standalone functional API/compiler contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  }
 }
