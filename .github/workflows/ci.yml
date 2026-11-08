@@ -11,5 +11,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install .
       - run: npm ci --ignore-scripts
       - run: npm test

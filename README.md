@@ -6,20 +6,20 @@ Maintainer: jannikco · License: MIT · Verification: **mock-only**
 
 ## Quick start
 
-Requires Node.js 22 or later.
+Requires Python 3.10 or later. Node.js 22 is optional for the npm compatibility wrapper.
 
 ```sh
-npm ci
-npm test
-npm start
+python3 -m unittest test_sdk.py
 python3 example.py --dry-run
+# Optional: install this repository as a local Python package
+python3 -m pip install .
 ```
 
 The default example runs locally without credentials and makes no external changes. Verification status describes recorded evidence; local configuration tests do not establish that provider authentication or execution works.
 
 ## Authorized execution
 
-Selected operation IDs: list_leads_get. Review integration.json and lib/operations.js for exact paths, scopes and parameters. Set LEADADAPTER_API_KEY and optionally LEADADAPTER_PARAMS (JSON with path, query or body), then run npm start -- --live. The example only executes operations classified api:read, including LinkedIn POST read requests. POST reads require an explicit idempotencyKey in LEADADAPTER_PARAMS. Replace example identifiers with authorized account data before live execution. Pending jobs, approvals and capability availability depend on your workspace and connected account.
+Selected operation IDs: list_leads_get. Review integration.json and leadadapter/operations.json for exact paths, scopes and parameters. Set LEADADAPTER_API_KEY and optionally LEADADAPTER_PARAMS (JSON with path, query or body), then run python3 example.py --live. The example only executes operations classified api:read, including LinkedIn POST read requests. POST reads require an explicit idempotencyKey in LEADADAPTER_PARAMS. Replace example identifiers with authorized account data before live execution. Pending jobs, approvals and capability availability depend on your workspace and connected account.
 
 ## Managed service
 
