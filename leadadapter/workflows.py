@@ -79,6 +79,7 @@ def run_research_to_crm(client, *, keywords=None, profile_id=None, prospect_ids=
     Missing ingestion and selection/approval waits return resumable stages. A write with
     an ambiguous outcome is held for manual reconciliation, never blindly replayed.
     """
+    if not isinstance(approve_promote,bool) or not isinstance(approve_crm,bool):raise ValueError('Approval options must be explicit booleans')
     if mode not in ('live','fixture'):raise ValueError('mode must be live or fixture')
     if mode=='live' and not checkpoint:raise ValueError('Live workflows require a durable checkpoint')
     fingerprint=getattr(client,'account_fingerprint',None)
