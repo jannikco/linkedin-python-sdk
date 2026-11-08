@@ -4,12 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "leadadapter-client"
-version = "0.1.0"
+version = "0.2.0"
 description = "Stdlib LeadAdapter REST client with generated operation metadata"
 requires-python = ">=3.10"
 
+[project.scripts]
+leadadapter = "leadadapter.__main__:main"
+
 [tool.setuptools]
-packages = ["leadadapter"]
+packages = ["leadadapter", "leadadapter.agentkit"]
 
 [tool.setuptools.package-data]
-leadadapter = ["operations.json"]
+leadadapter = ["operations.json", "py.typed", "workflow-contract.json"]
+"leadadapter.agentkit" = ["manifest.json", "skills/*/SKILL.md", "skills/*/references/*", "skills/*/scripts/*"]

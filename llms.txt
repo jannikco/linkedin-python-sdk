@@ -1,0 +1,14 @@
+# LeadAdapter Python API client
+
+> LinkedIn workflows powered by the LeadAdapter API key.
+
+- [Quick start](README.md)
+- [Capabilities](capabilities.json)
+- [Agent instructions](AGENTS.md)
+- [Research and CRM cookbook](docs/research-to-crm.md)
+- [linkedin-research](.agents/skills/linkedin-research/SKILL.md)
+- [linkedin-post-engagers](.agents/skills/linkedin-post-engagers/SKILL.md)
+- [linkedin-profile-enrichment](.agents/skills/linkedin-profile-enrichment/SKILL.md)
+- [linkedin-reviewed-crm](.agents/skills/linkedin-reviewed-crm/SKILL.md)
+
+Package/fixture testing does not establish live provider execution.

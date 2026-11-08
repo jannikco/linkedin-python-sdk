@@ -61,6 +61,8 @@ class LeadAdapterClient:
         self.__base=urlunsplit((url.scheme,url.netloc,url.path.rstrip('/'),'',''))
         self.__timeout=timeout
         self.__transport=transport or _transport
+        from .resources import attach
+        attach(self)
 
     def request(self, operation_id, *, path=None, query=None, body=None, idempotency_key=None, timeout=None):
         if operation_id not in operations: raise ValueError('Unknown LeadAdapter operation')
@@ -108,3 +110,7 @@ class LeadAdapterClient:
             if not isinstance(job,dict) or not isinstance(job.get('status'),str): raise LeadAdapterError('invalid_response')
             if job.get('finished') is True or job['status'] in ('done','failed','cancelled'): return result
             time.sleep(min(interval,max(0,deadline-time.monotonic())))
+
+
+__version__ = "0.2.0"
+from .types import Envelope, PeopleSearchRequest, ProfileEnrichmentRequest, PostEngagersRequest, JobData, ProspectRecord, require_data, job_id

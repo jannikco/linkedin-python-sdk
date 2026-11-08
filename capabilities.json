@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "linkedin-python-sdk",
+  "version": "0.2.0",
+  "product": "leadadapter",
+  "credential": "LEADADAPTER_API_KEY",
+  "executionAuthority": "https://leadadapter.com/api/v1",
+  "verification": {
+    "package": "Tested",
+    "providerExecution": "Documented",
+    "method": "synthetic-contract-fixtures"
+  },
+  "discovery": {
+    "operationMetadata": "leadadapter/operations.json",
+    "selectedOperationIds": [
+      "list_leads_get"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "linkedin-research",
+      "description": "Research LinkedIn people and build a source-backed shortlist using LeadAdapter. Use for prospect research, people search and reviewed CRM handoff.",
+      "instructions": ".agents/skills/linkedin-research/SKILL.md"
+    },
+    {
+      "name": "linkedin-post-engagers",
+      "description": "Find and qualify people who engaged with a LinkedIn post using LeadAdapter. Use for post engagement research and lead shortlists.",
+      "instructions": ".agents/skills/linkedin-post-engagers/SKILL.md"
+    },
+    {
+      "name": "linkedin-profile-enrichment",
+      "description": "Enrich selected LinkedIn profiles through LeadAdapter. Use when an existing shortlist needs source-backed profile details.",
+      "instructions": ".agents/skills/linkedin-profile-enrichment/SKILL.md"
+    },
+    {
+      "name": "linkedin-reviewed-crm",
+      "description": "Promote an explicitly reviewed LinkedIn shortlist to LeadAdapter CRM and optionally sync an existing CRM connection. Use after research and review.",
+      "instructions": ".agents/skills/linkedin-reviewed-crm/SKILL.md"
+    }
+  ],
+  "workflow": {
+    "name": "research-to-crm",
+    "defaultMode": "plan",
+    "nativeCrmDefault": true,
+    "explicitMutationApproval": true,
+    "checkpointRequiredForLive": true
+  },
+  "install": {
+    "codex": "agents install --client codex --scope project",
+    "claude": "agents install --client claude --scope project",
+    "grok": "agents install --client grok --scope project"
+  }
+}

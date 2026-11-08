@@ -1,6 +1,6 @@
 {
   "name": "linkedin-python-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Standard-library Python client for the LeadAdapter REST API.",
   "type": "module",
   "private": false,
@@ -11,5 +11,14 @@
   "scripts": {
     "test": "node --test",
     "start": "node example.mjs"
-  }
+  },
+  "files": [
+    "leadadapter",
+    "pyproject.toml",
+    "README.md",
+    "LICENSE",
+    "capabilities.json",
+    "docs",
+    "examples"
+  ]
 }

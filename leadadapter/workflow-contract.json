@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "workflow": "research-to-crm",
+  "defaultDestination": "leadadapter-native-crm",
+  "operations": {
+    "research": "search_post",
+    "job": "get_job_get",
+    "prospectList": "list_prospects_get",
+    "prospectGet": "list_prospects_get",
+    "promote": "manage_prospect_promote_post",
+    "externalSync": "sync_lead_to_crm_post"
+  },
+  "identity": {
+    "resultContainers": ["people", "persons", "profiles", "results", "elements", "items"],
+    "urnFields": ["urn", "linkedin_urn", "entityUrn", "objectUrn", "member_urn"],
+    "publicIdFields": ["public_id", "publicIdentifier", "publicId"],
+    "rule": "Match exact complete URN or exact public ID between completed research rows and prospect.data; do not strip URN namespaces, compare names, or infer identities. Explicit prospect IDs must still match completed research identity before promotion."
+  },
+  "approval": {
+    "promotion": "Caller must explicitly approve the exact selected prospect IDs before native CRM promotion.",
+    "externalSync": "Requires an explicit provider and a separate explicit approval; native LeadAdapter CRM is the default destination.",
+    "uncertainWrites": "Persist intent before each write; ambiguous outcomes hold for reconciliation and are never silently replayed."
+  },
+  "receipts": {
+    "queued": {"ok": true, "status": "queued", "job_id": "fixture-job-1", "eta_seconds": 1, "data": {}, "governance": null, "action_id": null},
+    "running": {"ok": true, "data": {"job_id": "fixture-job-1", "status": "leased", "result": null, "error": null, "finished": false}, "governance": null, "action_id": null},
+    "completed": {"ok": true, "data": {"job_id": "fixture-job-1", "status": "done", "result": {"people": [{"urn": "urn:li:fsd_profile:fixture-A", "public_id": "fixture-person", "name": "Synthetic Person"}]}, "error": null, "finished": true}, "governance": null, "action_id": null},
+    "prospectsPending": {"ok": true, "data": {"items": [], "page": 1, "has_more": false}, "governance": null, "action_id": null},
+    "prospects": {"ok": true, "data": {"items": [{"id": "fixture-prospect-1", "kind": "person", "data": {"urn": "urn:li:fsd_profile:fixture-A", "public_id": "fixture-person", "name": "Synthetic Person"}, "lead_id": null}], "page": 1, "has_more": false}, "governance": null, "action_id": null},
+    "prospect": {"ok": true, "data": {"record": {"id": "fixture-prospect-1", "kind": "person", "data": {"urn": "urn:li:fsd_profile:fixture-A", "public_id": "fixture-person", "name": "Synthetic Person"}, "lead_id": null}, "evidence": []}, "governance": null, "action_id": null},
+    "promoted": {"ok": true, "data": {"record": {"id": "fixture-prospect-1", "kind": "person", "data": {"urn": "urn:li:fsd_profile:fixture-A", "public_id": "fixture-person", "name": "Synthetic Person"}, "lead_id": "fixture-lead-1"}, "dry_run": false}, "governance": null, "action_id": null},
+    "synced": {"ok": true, "data": {"lead_id": "fixture-lead-1", "provider": "hubspot", "outcome": "created", "external_id": "fixture-external-1"}, "governance": null, "action_id": null}
+  },
+  "provenance": {
+    "baselineCommit": "04668250df0b41c58bf90246ba867437337e591b",
+    "publicSpec": "https://leadadapter.com/api/v1/openapi.json",
+    "sourcePaths": ["app/Domain/Shared/Operations/OperationResult.php", "app/Domain/Mcp/Tools/GetJob.php", "app/Domain/Mcp/Tools/ListProspects.php", "app/Domain/Mcp/Tools/ManageProspect.php", "app/Domain/Mcp/Tools/SyncLeadToCrm.php", "app/Domain/Discovery/Services/ProspectKnowledge.php", "app/Domain/Discovery/Services/ProspectActions.php", "app/Domain/Discovery/Services/SearchResultMapper.php"],
+    "state": "Source-bound synthetic receipts; no real account, credentials, person or provider execution. The OpenAPI data envelope remains open-ended. These fixtures document selected actual backend shapes, not all possible provider results."
+  }
+}

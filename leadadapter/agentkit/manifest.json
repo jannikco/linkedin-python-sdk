@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.0",
+  "product": "leadadapter",
+  "credential": "LEADADAPTER_API_KEY",
+  "skills": [
+    {
+      "name": "linkedin-research",
+      "description": "Research LinkedIn people and build a source-backed shortlist using LeadAdapter. Use for prospect research, people search and reviewed CRM handoff."
+    },
+    {
+      "name": "linkedin-post-engagers",
+      "description": "Find and qualify people who engaged with a LinkedIn post using LeadAdapter. Use for post engagement research and lead shortlists."
+    },
+    {
+      "name": "linkedin-profile-enrichment",
+      "description": "Enrich selected LinkedIn profiles through LeadAdapter. Use when an existing shortlist needs source-backed profile details."
+    },
+    {
+      "name": "linkedin-reviewed-crm",
+      "description": "Promote an explicitly reviewed LinkedIn shortlist to LeadAdapter CRM and optionally sync an existing CRM connection. Use after research and review."
+    }
+  ],
+  "files": {
+    "skills/linkedin-post-engagers/references/workflow.md": "dcb64143bab3d86baac9d6f63d6b3adb7fafac6c8da6851f0601766621cac36e",
+    "skills/linkedin-post-engagers/SKILL.md": "c681c255b465689db9e9a815461f1e9f8189f014e36ce163940195feb65b1d22",
+    "skills/linkedin-profile-enrichment/references/workflow.md": "dcb64143bab3d86baac9d6f63d6b3adb7fafac6c8da6851f0601766621cac36e",
+    "skills/linkedin-profile-enrichment/SKILL.md": "25c0c6943675059f00ddfa6d68c2e3d6ef1e25528efa7d830b795befa9213331",
+    "skills/linkedin-research/references/workflow.md": "dcb64143bab3d86baac9d6f63d6b3adb7fafac6c8da6851f0601766621cac36e",
+    "skills/linkedin-research/SKILL.md": "9edff537d9460f87e62f1873bff06987570ad07494783bb9ae4ee3d665699deb",
+    "skills/linkedin-reviewed-crm/references/workflow.md": "dcb64143bab3d86baac9d6f63d6b3adb7fafac6c8da6851f0601766621cac36e",
+    "skills/linkedin-reviewed-crm/SKILL.md": "8fdc33edf9d9d61eb5ace7e61f3f45fdc126f96ae7e29a02e84dbb0629bba5f1"
+  }
+}

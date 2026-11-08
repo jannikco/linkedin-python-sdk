@@ -5,7 +5,7 @@
   "releaseEligible": true,
   "maintainer": "jannikco",
   "license": "MIT",
-  "sourceRevision": "ea33908e4d5e10508739f28e11abf708e11f3117f1108b904229eeeb00079e55",
+  "sourceRevision": "f1ad58d970e649cd4cdaec0e666cef63266b5189f0ffc79e8fc2570223ec2bfd",
   "evidence": [
     "Pinned public OpenAPI contract",
     "tests/leadadapter.test.mjs"
@@ -26,7 +26,7 @@
   "artifactType": "sdk",
   "utility": {
     "problem": "Standard-library Python client for the LeadAdapter REST API.",
-    "output": "Documented LeadAdapter API results"
+    "output": "Authenticated LeadAdapter results, review reports and resumable research-to-CRM workflows"
   },
   "capabilityEvidence": {
     "local": {
@@ -36,13 +36,13 @@
           "name": "linkedin-python-sdk",
           "level": "Tested",
           "evidenceRefs": [
-            "Standalone functional API/compiler contract tests"
+            "SDK/agent/workflow contract fixtures; no live provider execution"
           ],
           "method": "contract-fixture"
         }
       ],
       "evidenceRefs": [
-        "Standalone functional API/compiler contract tests"
+        "SDK/agent/workflow contract fixtures; no live provider execution"
       ],
       "mode": "local"
     },
@@ -52,5 +52,8 @@
       "evidenceRefs": [],
       "mode": "managed"
     }
-  }
+  },
+  "agentReady": true,
+  "version": "0.2.0",
+  "executionAuthority": "leadadapter-api"
 }
